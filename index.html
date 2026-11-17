@@ -22,6 +22,7 @@
             transition: all 0.2s ease;
             background: #ffffff;
             border: 1px solid #e5e7eb;
+            cursor: pointer;
         }
         .daraz-card:hover {
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
@@ -343,10 +344,60 @@
 
     </main>
 
-    <!-- Vendor Registration Modal (Rs. 500 Fee Pop-up - Fully Scrollable & Fixed Close Button) -->
+    <!-- Individual Product View & Feedback Modal -->
+    <div id="product-detail-modal" class="fixed inset-0 bg-black/70 flex items-center justify-center z-50 hidden p-3 sm:p-6 overflow-y-auto">
+        <div class="bg-white border border-zinc-200 p-5 sm:p-8 rounded-lg w-full max-w-2xl relative space-y-6 shadow-2xl my-auto max-h-[90vh] overflow-y-auto">
+            <button onclick="closeProductDetailModal()" class="sticky top-0 float-right bg-zinc-100 hover:bg-zinc-200 text-zinc-700 w-8 h-8 rounded-full flex items-center justify-center font-bold z-10 shadow-sm"><i class="fa-solid fa-xmark text-sm"></i></button>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-2">
+                <div class="w-full h-64 sm:h-80 bg-zinc-100 rounded-sm overflow-hidden border border-zinc-200">
+                    <img id="detail-prod-img" src="" class="w-full h-full object-cover">
+                </div>
+                <div class="space-y-4">
+                    <div>
+                        <span id="detail-prod-category" class="bg-orange-100 text-[#f85606] text-[10px] font-bold px-2 py-0.5 rounded uppercase">Category</span>
+                        <h2 id="detail-prod-name" class="text-xl font-black text-zinc-800 mt-1">Product Name</h2>
+                    </div>
+                    <div class="text-2xl font-black text-[#f85606]" id="detail-prod-price">Rs. 0</div>
+                    <p id="detail-prod-desc" class="text-xs text-zinc-600 leading-relaxed">Description...</p>
+                    
+                    <button onclick="buyFromDetailModal()" class="w-full bg-[#f85606] hover:bg-orange-700 text-white font-bold py-3 rounded-sm text-xs uppercase tracking-wider shadow">
+                        Buy Now via WhatsApp (03028372072)
+                    </button>
+                </div>
+            </div>
+
+            <!-- Customer Feedbacks & Reviews Section -->
+            <div class="border-t border-zinc-200 pt-6 space-y-4">
+                <h3 class="text-sm font-bold text-zinc-800 uppercase tracking-wide">⭐ Customer Feedbacks & Reviews</h3>
+                
+                <div id="feedbacks-list" class="space-y-3 max-h-48 overflow-y-auto pr-2">
+                    <p class="text-xs text-zinc-400">No reviews yet. Be the first to review!</p>
+                </div>
+
+                <!-- Submit Feedback Form -->
+                <div class="bg-zinc-50 p-4 rounded-sm border border-zinc-200 space-y-3">
+                    <h4 class="text-xs font-bold text-zinc-700">Leave Your Feedback</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        <input type="text" id="fb-author" placeholder="Your Name" class="bg-white border border-zinc-300 rounded-sm p-2 text-xs text-zinc-800">
+                        <select id="fb-rating" class="bg-white border border-zinc-300 rounded-sm p-2 text-xs text-zinc-800">
+                            <option value="5">⭐⭐⭐⭐⭐ (5/5 Excellent)</option>
+                            <option value="4">⭐⭐⭐⭐ (4/5 Very Good)</option>
+                            <option value="3">⭐⭐⭐ (3/5 Good)</option>
+                            <option value="2">⭐⭐ (2/5 Average)</option>
+                            <option value="1">⭐ (1/5 Poor)</option>
+                        </select>
+                    </div>
+                    <textarea id="fb-comment" rows="2" placeholder="Write your review about this perfume..." class="w-full bg-white border border-zinc-300 rounded-sm p-2 text-xs text-zinc-800"></textarea>
+                    <button onclick="submitProductFeedback()" class="bg-zinc-900 hover:bg-black text-white font-bold px-4 py-2 rounded-sm text-xs uppercase">Submit Review</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Vendor Registration Modal (Rs. 500 Fee Pop-up) -->
     <div id="vendor-reg-modal" class="fixed inset-0 bg-black/70 flex items-center justify-center z-50 hidden p-3 sm:p-6 overflow-y-auto">
         <div class="bg-white border border-zinc-200 p-5 sm:p-8 rounded-lg w-full max-w-md relative space-y-4 shadow-2xl my-auto max-h-[90vh] overflow-y-auto">
-            <!-- Fixed Sticky Close Button -->
             <button onclick="closeVendorRegModal()" class="sticky top-0 float-right bg-zinc-100 hover:bg-zinc-200 text-zinc-700 w-8 h-8 rounded-full flex items-center justify-center font-bold z-10 shadow-sm"><i class="fa-solid fa-xmark text-sm"></i></button>
             
             <div class="space-y-1 text-center pt-2">
@@ -357,7 +408,6 @@
                 <p class="text-xs text-zinc-500">Pay Rs. 500 one-time fee to get lifetime unlimited product adding access & admin panel PIN (4172).</p>
             </div>
 
-            <!-- Bank Details Box -->
             <div class="bg-zinc-50 border border-zinc-200 p-3 rounded-sm text-xs font-mono space-y-1 text-zinc-700">
                 <p class="text-[#f85606] font-bold pb-1">💳 OPay Bank Transfer Details:</p>
                 <p><strong>Bank Name:</strong> OPay Bank</p>
@@ -520,7 +570,11 @@
                 category: cat,
                 price: 1500 + (i * 75) % 3500,
                 desc: `Exquisite luxury fragrance edition ${i} crafted with premium oriental oils and long lasting notes.`,
-                image: sampleImages[i % sampleImages.length]
+                image: sampleImages[i % sampleImages.length],
+                feedbacks: [
+                    { author: "Ahmed Khan", rating: 5, comment: "Amazing longevity! Very premium scent." },
+                    { author: "Usman Ali", rating: 5, comment: "Loved the packing and delivery speed." }
+                ]
             });
         }
 
@@ -662,8 +716,8 @@
                 filtered.forEach(p => {
                     let discountPrice = Math.round(p.price * 1.25);
                     html += `
-                        <div class="daraz-card rounded-sm p-2.5 flex flex-col justify-between space-y-2 relative">
-                            <span class="absolute top-2 left-2 bg-[#f85606] text-white text-[9px] font-bold px-1.5 py-0.5 rounded-sm">-20%</span>
+                        <div onclick="openProductDetail('${p.id}')" class="daraz-card rounded-sm p-2.5 flex flex-col justify-between space-y-2 relative">
+                            <span class="absolute top-2 left-2 bg-[#f85606] text-white text-[9px] font-bold px-1.5 py-0.5 rounded-sm z-10">-20%</span>
                             <div>
                                 <div class="w-full h-40 rounded-sm overflow-hidden bg-zinc-100 mb-2">
                                     <img src="${p.image || 'https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=500'}" class="w-full h-full object-cover">
@@ -677,7 +731,7 @@
                                     <span class="text-[10px] text-zinc-500">(543 sold)</span>
                                 </div>
                                 <div class="text-[10px] text-amber-500 font-bold"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i> <span class="text-zinc-400">(4.9)</span></div>
-                                <button onclick="openCheckoutModal('${p.id}')" class="w-full mt-2 bg-[#f85606] hover:bg-orange-700 text-white font-bold py-1.5 rounded-sm text-xs uppercase shadow-sm">
+                                <button onclick="event.stopPropagation(); openCheckoutModal('${p.id}')" class="w-full mt-2 bg-[#f85606] hover:bg-orange-700 text-white font-bold py-1.5 rounded-sm text-xs uppercase shadow-sm">
                                     Buy Now
                                 </button>
                             </div>
@@ -700,8 +754,8 @@
             filtered.forEach(p => {
                 let discountPrice = Math.round(p.price * 1.25);
                 html += `
-                    <div class="daraz-card rounded-sm p-2.5 flex flex-col justify-between space-y-2 relative">
-                        <span class="absolute top-2 left-2 bg-[#f85606] text-white text-[9px] font-bold px-1.5 py-0.5 rounded-sm">-20%</span>
+                    <div onclick="openProductDetail('${p.id}')" class="daraz-card rounded-sm p-2.5 flex flex-col justify-between space-y-2 relative">
+                        <span class="absolute top-2 left-2 bg-[#f85606] text-white text-[9px] font-bold px-1.5 py-0.5 rounded-sm z-10">-20%</span>
                         <div>
                             <div class="w-full h-40 rounded-sm overflow-hidden bg-zinc-100 mb-2">
                                 <img src="${p.image}" class="w-full h-full object-cover">
@@ -714,12 +768,90 @@
                                 <span class="text-[10px] text-zinc-400 line-through">Rs. ${discountPrice.toLocaleString()}</span>
                             </div>
                             <div class="text-[10px] text-amber-500 font-bold"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                            <button onclick="openCheckoutModal('${p.id}')" class="w-full mt-2 bg-[#f85606] hover:bg-orange-700 text-white font-bold py-1.5 rounded-sm text-xs uppercase shadow-sm">Buy Now</button>
+                            <button onclick="event.stopPropagation(); openCheckoutModal('${p.id}')" class="w-full mt-2 bg-[#f85606] hover:bg-orange-700 text-white font-bold py-1.5 rounded-sm text-xs uppercase shadow-sm">Buy Now</button>
                         </div>
                     </div>
                 `;
             });
             shopGrid.innerHTML = html;
+        };
+
+        // Open Individual Product Detail Modal
+        window.openProductDetail = function(id) {
+            let p = window.productsDb.find(x => x.id === id);
+            if(!p) return;
+            currentSelectedProduct = p;
+
+            document.getElementById('detail-prod-img').src = p.image || 'https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=500';
+            document.getElementById('detail-prod-category').innerText = p.category || 'Luxury Fragrance';
+            document.getElementById('detail-prod-name').innerText = p.name;
+            document.getElementById('detail-prod-price').innerText = `Rs. ${p.price.toLocaleString()}`;
+            document.getElementById('detail-prod-desc').innerText = p.desc || 'No description available.';
+
+            renderProductFeedbacks(p.feedbacks || []);
+            document.getElementById('product-detail-modal').classList.remove('hidden');
+        };
+
+        window.closeProductDetailModal = function() {
+            document.getElementById('product-detail-modal').classList.add('hidden');
+        };
+
+        window.buyFromDetailModal = function() {
+            closeProductDetailModal();
+            if(currentSelectedProduct) {
+                openCheckoutModal(currentSelectedProduct.id);
+            }
+        };
+
+        function renderProductFeedbacks(feedbacks) {
+            const list = document.getElementById('feedbacks-list');
+            if(!list) return;
+            if(!feedbacks || feedbacks.length === 0) {
+                list.innerHTML = '<p class="text-xs text-zinc-400">No reviews yet. Be the first to review!</p>';
+                return;
+            }
+            let html = '';
+            feedbacks.forEach(f => {
+                let stars = '⭐'.repeat(f.rating || 5);
+                html += `
+                    <div class="bg-zinc-50 border border-zinc-200 p-3 rounded-sm space-y-1">
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-zinc-800">${f.author}</span>
+                            <span class="text-[10px] text-amber-500">${stars}</span>
+                        </div>
+                        <p class="text-xs text-zinc-600">${f.comment}</p>
+                    </div>
+                `;
+            });
+            list.innerHTML = html;
+        }
+
+        window.submitProductFeedback = async function() {
+            if(!currentSelectedProduct) return;
+            let author = document.getElementById('fb-author').value.trim();
+            let rating = parseInt(document.getElementById('fb-rating').value);
+            let comment = document.getElementById('fb-comment').value.trim();
+
+            if(!author || !comment) {
+                alert("Please enter your name and review comment!");
+                return;
+            }
+
+            let newFeedback = { author, rating, comment };
+            if(!currentSelectedProduct.feedbacks) {
+                currentSelectedProduct.feedbacks = [];
+            }
+            currentSelectedProduct.feedbacks.unshift(newFeedback);
+
+            try {
+                await window.setDoc(window.doc(window.db, "perfume_products", currentSelectedProduct.id), currentSelectedProduct, { merge: true });
+                renderProductFeedbacks(currentSelectedProduct.feedbacks);
+                document.getElementById('fb-author').value = '';
+                document.getElementById('fb-comment').value = '';
+                alert("Feedback submitted successfully!");
+            } catch(e) {
+                alert("Error submitting review: " + e.message);
+            }
         };
 
         window.updateMarquee = function() {
@@ -949,7 +1081,7 @@
                         let image = cols[4] ? cols[4].trim() : 'https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=500';
                         
                         let prodId = 'bulk_' + Date.now() + '_' + i;
-                        await window.setDoc(window.doc(window.db, "perfume_products", prodId), { name, category, price, desc, image });
+                        await window.setDoc(window.doc(window.db, "perfume_products", prodId), { name, category, price, desc, image, feedbacks: [] });
                         count++;
                     }
                 }
@@ -1001,7 +1133,9 @@
             }
 
             try {
-                await window.setDoc(window.doc(window.db, "perfume_products", id), { name, category, price, desc, image });
+                let existing = window.productsDb.find(x => x.id === id);
+                let feedbacks = existing ? existing.feedbacks || [] : [];
+                await window.setDoc(window.doc(window.db, "perfume_products", id), { name, category, price, desc, image, feedbacks });
                 alert("Product saved & published successfully!");
                 resetProductForm();
             } catch(e) {
