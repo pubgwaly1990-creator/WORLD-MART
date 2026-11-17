@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daraz PK — Online Shopping in Pakistan | Perfumes & Fragrances</title>
+    <!-- Tailwind CSS & FontAwesome -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .tab-content { display: none; opacity: 0; transform: translateY(10px); transition: opacity 0.3s ease, transform 0.3s ease; }
+        .tab-content.active { display: block; opacity: 1; transform: translateY(0); }
+        .click-circle {
+            position: absolute; width: 20px; height: 20px; border: 2px solid #f97316; border-radius: 50%;
+            transform: translate(-50%, -50%); pointer-events: none; animation: ping-expand 0.6s ease-out forwards; z-index: 9999;
+        }
+        @keyframes ping-expand {
+            0% { width: 0px; height: 0px; opacity: 1; }
+            100% { width: 80px; height: 80px; opacity: 0; }
+        }
+        .daraz-card {
+            transition: all 0.2s ease;
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+        }
+        .daraz-card:hover {
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transform: translateY(-3px);
+            border-color: #f97316;
+        }
+    </style>
+</head>
+<body class="bg-[#f4f4f5] text-zinc-800 font-sans antialiased min-h-screen flex flex-col justify-between selection:bg-orange-500 selection:text-white">
+
+    <!-- Daraz Style Top Banner -->
+    <div class="bg-[#222222] text-[#d1d5db] text-[11px] py-1 px-4 hidden sm:block">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex gap-4">
+                <span>SAVE MORE ON APP</span>
+                <span>SELL ON DARAZ</span>
+                <span>CUSTOMER CARE</span>
+            </div>
+            <div class="flex gap-4">
+                <span><i class="fa-solid fa-location-dot text-orange-500 mr-1"></i> Deliver to Lahore, Pakistan</span>
+                <span><i class="fa-brands fa-whatsapp text-emerald-400 mr-1"></i> 03028372072</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Daraz Header -->
+    <header class="bg-[#f85606] sticky top-0 z-50 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
+            <!-- Logo -->
+            <div class="flex items-center space-x-2 cursor-pointer" onclick="switchTab('home')">
+                <div class="flex flex-col">
+                    <span id="brand-title-header" class="text-2xl font-black italic tracking-tighter text-white leading-none">daraz.pk</span>
+                    <span class="text-[9px] font-bold text-white tracking-widest uppercase mt-0.5">GROW FUTURE STORE</span>
+                </div>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="flex-1 max-w-2xl hidden md:flex">
+                <div class="flex w-full bg-white rounded-sm overflow-hidden shadow-sm">
+                    <input type="text" id="daraz-search-input" oninput="filterProducts(this.value)" placeholder="Search in Daraz (Perfumes, Fragrances...)" class="flex-1 px-4 py-2.5 text-xs text-zinc-800 focus:outline-none">
+                    <button class="bg-[#ffe1d2] hover:bg-[#ffcbb2] text-[#f85606] px-6 flex items-center justify-center transition-colors">
+                        <i class="fa-solid fa-magnifying-glass text-sm"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Right Nav Icons -->
+            <div class="flex items-center gap-3">
+                <a href="https://wa.me/923028372072?text=Hello%20Daraz%20Store,%20I%20want%20to%20order%20perfumes." target="_blank" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-3.5 py-2 rounded-sm text-xs flex items-center gap-1.5 shadow">
+                    <i class="fa-brands fa-whatsapp text-sm"></i> <span class="hidden sm:inline">Live Chat</span>
+                </a>
+                <button onclick="switchTab('analytics-tab')" class="bg-orange-700 hover:bg-orange-800 text-white font-bold px-3.5 py-2 rounded-sm text-xs hidden sm:flex items-center gap-1">
+                    <i class="fa-solid fa-chart-line"></i> Analytics
+                </button>
+                <button onclick="openAdminModal()" class="bg-zinc-900 hover:bg-black text-white font-bold px-3.5 py-2 rounded-sm text-xs flex items-center gap-1 shadow">
+                    <i class="fa-solid fa-lock text-orange-400"></i> <span>Admin</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Marquee Banner for Newly Added Products -->
+    <div class="bg-[#fff3ed] border-y border-orange-200 py-2 overflow-hidden whitespace-nowrap">
+        <div id="marquee-banner" class="inline-block animate-marquee text-xs font-bold text-[#f85606] tracking-wider">
+            🔥 MEGA FLASH SALE: Up to 50% OFF on Luxury Perfumes! Free Delivery & OPay Instant Checkout on 03028372072. 🔥
+        </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-grow w-full space-y-6">
+
+        <!-- 1. HOME TAB (Daraz Style Storefront) -->
+        <div id="home" class="tab-content active space-y-6">
+            <!-- Daraz Hero Banner Slider Area -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div class="md:col-span-3 bg-gradient-to-r from-orange-600 to-amber-600 rounded-lg p-8 sm:p-12 text-white shadow-md flex flex-col justify-center space-y-4">
+                    <span class="bg-black/30 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider w-max">
+                        ⚡ Daraz Verified Official Store
+                    </span>
+                    <h2 class="text-3xl sm:text-5xl font-black tracking-tight leading-none">
+                        Mega Fragrance <span class="text-amber-200">Festival</span>
+                    </h2>
+                    <p class="text-xs sm:text-sm text-orange-100 max-w-lg">
+                        Explore 50+ branded luxury perfumes. Direct WhatsApp ordering & secure OPay bank payments.
+                    </p>
+                    <div class="pt-2">
+                        <button onclick="switchTab('shop')" class="bg-white text-[#f85606] font-black px-6 py-2.5 rounded-sm text-xs uppercase tracking-wider shadow hover:bg-orange-50 transition-colors">
+                            SHOP NOW →
+                        </button>
+                    </div>
+                </div>
+                <div class="bg-white rounded-lg p-4 border border-zinc-200 shadow-sm flex flex-col justify-between space-y-3">
+                    <div class="flex items-center gap-3 border-b border-zinc-100 pb-3">
+                        <div class="w-10 h-10 rounded-full bg-orange-100 text-[#f85606] flex items-center justify-center font-bold">
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-xs font-bold text-zinc-800">Safe Payments</h4>
+                            <p class="text-[10px] text-zinc-500">OPay Bank Secure</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3 border-b border-zinc-100 pb-3">
+                        <div class="w-10 h-10 rounded-full bg-orange-100 text-[#f85606] flex items-center justify-center font-bold">
+                            <i class="fa-solid fa-truck-fast"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-xs font-bold text-zinc-800">Fast Nationwide</h4>
+                            <p class="text-[10px] text-zinc-500">Delivery in 2-3 Days</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-orange-100 text-[#f85606] flex items-center justify-center font-bold">
+                            <i class="fa-solid fa-headset"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-xs font-bold text-zinc-800">WhatsApp Support</h4>
+                            <p class="text-[10px] text-zinc-500">03028372072</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Categories Section (Daraz Style Grid) -->
+            <div class="bg-white rounded-lg p-5 border border-zinc-200 shadow-sm space-y-4">
+                <h3 class="text-sm font-bold text-zinc-800 uppercase tracking-wide">
+                    Categories <span class="text-xs text-zinc-400 font-normal">(50+ Available)</span>
+                </h3>
+                <div id="categories-container" class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-8 gap-3">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+
+            <!-- Flash Sale / Products Grid -->
+            <div class="bg-white rounded-lg p-5 border border-zinc-200 shadow-sm space-y-4">
+                <div class="flex justify-between items-center border-b border-zinc-100 pb-3">
+                    <div class="flex items-center gap-3">
+                        <h3 class="text-base font-black text-[#f85606] uppercase">Flash Sale</h3>
+                        <span class="bg-orange-100 text-[#f85606] text-[10px] font-bold px-2 py-0.5 rounded">On Sale Today</span>
+                    </div>
+                    <button onclick="switchTab('shop')" class="text-xs text-[#f85606] font-bold hover:underline">SHOP MORE ></button>
+                </div>
+                <div id="home-products-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. SHOP ALL PRODUCTS TAB -->
+        <div id="shop" class="tab-content space-y-6">
+            <div class="bg-white rounded-lg p-5 border border-zinc-200 shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <div>
+                    <h2 class="text-xl font-bold text-zinc-800">All Perfumes Catalog</h2>
+                    <p class="text-xs text-zinc-500">Browse complete inventory with Daraz verified badges.</p>
+                </div>
+                <div class="w-full sm:w-80">
+                    <input type="text" id="search-product-input" oninput="filterProducts(this.value)" placeholder="Search products..." class="w-full bg-zinc-50 border border-zinc-300 rounded-sm px-3 py-2 text-xs text-zinc-800 focus:outline-none focus:border-[#f85606]">
+                </div>
+            </div>
+            <div id="shop-products-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
+                <!-- Populated dynamically -->
+            </div>
+        </div>
+
+        <!-- 3. LIVE ANALYTICS TAB -->
+        <div id="analytics-tab" class="tab-content space-y-6">
+            <div class="max-w-4xl mx-auto bg-white rounded-lg p-8 border border-zinc-200 shadow-sm space-y-8">
+                <div class="flex justify-between items-center border-b border-zinc-100 pb-4">
+                    <div>
+                        <span class="bg-orange-100 text-[#f85606] text-[10px] font-bold px-3 py-1 rounded-full uppercase">
+                            📊 Daraz Seller Center Analytics
+                        </span>
+                        <h2 class="text-2xl font-black text-zinc-800 mt-2">Live Performance (Last 3 Months)</h2>
+                    </div>
+                    <span class="text-xs text-emerald-600 font-bold">● System Active</span>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div class="bg-zinc-50 border border-zinc-200 p-6 rounded-lg space-y-2">
+                        <p class="text-xs text-zinc-500 uppercase font-bold">Total Sales (3 Months)</p>
+                        <h3 id="stat-total-sales" class="text-3xl font-black text-[#f85606]">Rs. 845,200</h3>
+                        <p class="text-[10px] text-emerald-600">↑ +14.2% growth</p>
+                    </div>
+                    <div class="bg-zinc-50 border border-zinc-200 p-6 rounded-lg space-y-2">
+                        <p class="text-xs text-zinc-500 uppercase font-bold">Daily Orders Average</p>
+                        <h3 id="stat-daily-orders" class="text-3xl font-black text-zinc-800">8.5 / day</h3>
+                        <p class="text-[10px] text-zinc-500">Target range: 7 to 10 orders</p>
+                    </div>
+                    <div class="bg-zinc-50 border border-zinc-200 p-6 rounded-lg space-y-2">
+                        <p class="text-xs text-zinc-500 uppercase font-bold">Total Perfumes Sold</p>
+                        <h3 id="stat-total-items" class="text-3xl font-black text-[#f85606]">764 Units</h3>
+                        <p class="text-[10px] text-emerald-600">99.2% Fulfillment Rate</p>
+                    </div>
+                </div>
+
+                <div class="bg-zinc-50 border border-zinc-200 p-6 rounded-lg space-y-4">
+                    <h3 class="text-xs font-bold text-zinc-700 uppercase tracking-wider">Monthly Breakdown</h3>
+                    <div class="space-y-3 text-xs">
+                        <div>
+                            <div class="flex justify-between font-bold text-zinc-700 mb-1">
+                                <span>Month 1 (Current)</span>
+                                <span id="m1-sales">Rs. 312,400 (9.2 orders/day)</span>
+                            </div>
+                            <div class="w-full bg-zinc-200 h-2 rounded-full overflow-hidden">
+                                <div id="m1-bar" class="bg-[#f85606] h-full" style="width: 85%;"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between font-bold text-zinc-700 mb-1">
+                                <span>Month 2</span>
+                                <span id="m2-sales">Rs. 284,500 (7.8 orders/day)</span>
+                            </div>
+                            <div class="w-full bg-zinc-200 h-2 rounded-full overflow-hidden">
+                                <div id="m2-bar" class="bg-[#f85606] h-full" style="width: 75%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. ADMIN PANEL TAB (Protected by PIN 4172 - PIN hidden from text) -->
+        <div id="admin-panel" class="tab-content space-y-6">
+            <div class="max-w-4xl mx-auto bg-white rounded-lg p-8 border border-zinc-200 shadow-sm space-y-8">
+                <div class="flex justify-between items-center border-b border-zinc-100 pb-4">
+                    <div>
+                        <h2 class="text-2xl font-black text-zinc-800">🔒 Admin Dashboard</h2>
+                        <p class="text-xs text-zinc-500">Manage store settings, bank account, bulk CSV upload, and products.</p>
+                    </div>
+                    <button onclick="switchTab('home')" class="bg-zinc-200 text-zinc-700 hover:bg-zinc-300 px-4 py-2 rounded-sm text-xs font-bold">Close Admin</button>
+                </div>
+
+                <!-- Store Settings Manager -->
+                <div class="bg-zinc-50 p-6 rounded-lg border border-zinc-200 space-y-4">
+                    <h3 class="text-sm font-bold text-[#f85606]">⚙️ Store Settings & Branding</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-[11px] font-bold text-zinc-600 mb-1">Store / Brand Name</label>
+                            <input type="text" id="admin-brand-name" value="daraz.pk" class="w-full bg-white border border-zinc-300 rounded-sm p-2.5 text-xs text-zinc-800">
+                        </div>
+                        <div class="flex items-end">
+                            <button onclick="saveBrandSettings()" class="w-full bg-[#f85606] hover:bg-orange-700 text-white font-bold py-2.5 rounded-sm text-xs">Update Brand Name</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bank Account Manager -->
+                <div class="bg-zinc-50 p-6 rounded-lg border border-zinc-200 space-y-4">
+                    <h3 class="text-sm font-bold text-[#f85606]">💳 Bank Account Manager (OPay Bank)</h3>
+                    <input type="hidden" id="edit-bank-id" value="bank_opay">
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <input type="text" id="bank-name" value="OPay Bank" class="bg-white border border-zinc-300 rounded-sm p-2.5 text-xs text-zinc-800" placeholder="Bank Name">
+                        <input type="text" id="bank-title" value="Usman Amjad" class="bg-white border border-zinc-300 rounded-sm p-2.5 text-xs text-zinc-800" placeholder="Account Title">
+                        <input type="text" id="bank-number" value="03028372072" class="bg-white border border-zinc-300 rounded-sm p-2.5 text-xs text-zinc-800 font-mono" placeholder="Account / Phone Number">
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="saveBankDetail()" class="bg-[#f85606] hover:bg-orange-700 text-white font-bold px-5 py-2.5 rounded-sm text-xs">Save / Update Bank Account</button>
+                        <button onclick="deleteBankDetail()" class="bg-red-100 text-red-600 px-4 py-2.5 rounded-sm text-xs font-bold">Delete Account</button>
+                    </div>
+                </div>
+
+                <!-- BULK UPLOAD PRODUCTS (CSV / Excel format) -->
+                <div class="bg-zinc-50 p-6 rounded-lg border border-zinc-200 space-y-4">
+                    <h3 class="text-sm font-bold text-[#f85606]">📁 Bulk Upload Products (CSV File)</h3>
+                    <p class="text-xs text-zinc-500">Upload a CSV file with columns: <code class="text-[#f85606] font-mono">name, category, price, desc, image</code></p>
+                    <div class="flex flex-col sm:flex-row gap-3 items-center">
+                        <input type="file" id="bulk-csv-file" accept=".csv" class="w-full bg-white border border-zinc-300 rounded-sm p-2 text-xs text-zinc-800 file:mr-4 file:py-1 file:px-3 file:rounded-sm file:border-0 file:text-xs file:font-bold file:bg-[#f85606] file:text-white cursor-pointer">
+                        <button onclick="processBulkCsvUpload()" class="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-6 py-2.5 rounded-sm text-xs whitespace-nowrap">Upload & Import Bulk</button>
+                    </div>
+                </div>
+
+                <!-- Single Product Manager -->
+                <div class="bg-zinc-50 p-6 rounded-lg border border-zinc-200 space-y-4">
+                    <h3 id="product-form-title" class="text-sm font-bold text-[#f85606]">➕ Add New Perfume Product (Auto AI Description)</h3>
+                    <input type="hidden" id="edit-product-id">
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <input type="text" id="prod-name" placeholder="Perfume Name (e.g. Royal Oud Luxury)" oninput="autoGenerateDescription(this.value)" class="bg-white border border-zinc-300 rounded-sm p-2.5 text-xs text-zinc-800">
+                        <select id="prod-category" class="bg-white border border-zinc-300 rounded-sm p-2.5 text-xs text-zinc-800">
+                            <!-- Populated dynamically -->
+                        </select>
+                        <input type="number" id="prod-price" placeholder="Price in Rs. (e.g. 2499)" class="bg-white border border-zinc-300 rounded-sm p-2.5 text-xs text-zinc-800">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-zinc-600 mb-1">Choose Photo from Gallery (Direct Upload)</label>
+                        <input type="file" id="prod-photo-file" accept="image/*" onchange="previewProductImage(this)" class="w-full bg-white border border-zinc-300 rounded-sm p-2.5 text-xs text-zinc-800 file:mr-4 file:py-1 file:px-3 file:rounded-sm file:border-0 file:text-xs file:font-bold file:bg-[#f85606] file:text-white cursor-pointer">
+                        <input type="hidden" id="prod-image-base64">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-zinc-600 mb-1">Auto-Generated Description (AI System)</label>
+                        <textarea id="prod-desc" rows="3" class="w-full bg-white border border-zinc-300 rounded-sm p-2.5 text-xs text-zinc-800" placeholder="Auto-generated description will appear here..."></textarea>
+                    </div>
+                    <div class="flex gap-2 pt-1">
+                        <button onclick="saveProduct()" id="prod-save-btn" class="bg-[#f85606] hover:bg-orange-700 text-white font-bold px-5 py-2.5 rounded-sm text-xs">Save & Publish Product</button>
+                        <button onclick="resetProductForm()" id="prod-cancel-btn" class="hidden bg-zinc-600 text-white font-bold px-4 py-2.5 rounded-sm text-xs">Cancel</button>
+                    </div>
+
+                    <div class="pt-4 border-t border-zinc-200">
+                        <h4 class="text-xs font-bold text-zinc-700 mb-2">Active Perfumes Catalog:</h4>
+                        <div id="admin-products-list" class="space-y-2 max-h-60 overflow-y-auto">
+                            <p class="text-xs text-zinc-400">Loading products...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Checkout Modal -->
+    <div id="checkout-modal" class="fixed inset-0 bg-black/70 flex items-center justify-center z-50 hidden p-4">
+        <div class="bg-white border border-zinc-200 p-6 sm:p-8 rounded-lg w-full max-w-md relative space-y-6 shadow-2xl">
+            <button onclick="closeCheckoutModal()" class="absolute top-4 right-4 text-zinc-400 hover:text-zinc-800"><i class="fa-solid fa-xmark text-lg"></i></button>
+            <div class="space-y-1">
+                <span class="text-[10px] font-bold text-[#f85606] uppercase tracking-wider">Daraz Secure Checkout</span>
+                <h3 id="modal-prod-title" class="text-xl font-black text-zinc-800">Order Perfume</h3>
+                <p id="modal-prod-price" class="text-[#f85606] font-black text-lg">Rs. 0</p>
+            </div>
+
+            <!-- Bank Details Box -->
+            <div class="bg-zinc-50 border border-zinc-200 p-4 rounded-sm text-xs font-mono space-y-1 text-zinc-700">
+                <p class="text-[#f85606] font-bold pb-1">💳 OPay Bank Transfer Details:</p>
+                <p><strong>Bank Name:</strong> <span id="checkout-bank-name">OPay Bank</span></p>
+                <p><strong>Account Title:</strong> <span id="checkout-bank-title">Usman Amjad</span></p>
+                <p><strong>Account Number:</strong> <span id="checkout-bank-num" class="text-[#f85606] font-bold">03028372072</span></p>
+                <p class="text-[10px] text-zinc-500 pt-1">Transfer exact amount via OPay & share screenshot on WhatsApp.</p>
+            </div>
+
+            <div class="space-y-3">
+                <div>
+                    <label class="block text-xs font-bold text-zinc-600 mb-1">Your Full Name</label>
+                    <input type="text" id="cust-name" placeholder="Muhammad Ali" class="w-full bg-zinc-50 border border-zinc-300 rounded-sm px-3 py-2.5 text-xs text-zinc-800">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-zinc-600 mb-1">Your Delivery Address</label>
+                    <input type="text" id="cust-address" placeholder="House # 123, Street # 4, City" class="w-full bg-zinc-50 border border-zinc-300 rounded-sm px-3 py-2.5 text-xs text-zinc-800">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-zinc-600 mb-1">Transaction ID / OPay Receipt (Optional)</label>
+                    <input type="text" id="cust-trx" placeholder="e.g. TRX8372910" class="w-full bg-zinc-50 border border-zinc-300 rounded-sm px-3 py-2.5 text-xs text-zinc-800">
+                </div>
+            </div>
+
+            <button onclick="confirmWhatsAppOrder()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 rounded-sm text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow">
+                <i class="fa-brands fa-whatsapp text-base"></i> Place Order via WhatsApp (03028372072)
+            </button>
+        </div>
+    </div>
+
+    <!-- Admin PIN Modal (PIN 4172 required, PIN text hidden) -->
+    <div id="admin-modal" class="fixed inset-0 bg-black/70 flex items-center justify-center z-50 hidden p-4">
+        <div class="bg-white border border-zinc-200 p-6 rounded-lg w-full max-w-sm relative space-y-4 shadow-2xl">
+            <button onclick="closeAdminModal()" class="absolute top-3 right-3 text-zinc-400 hover:text-zinc-800"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="text-base font-bold text-zinc-800"><i class="fa-solid fa-lock text-[#f85606] mr-1"></i> Admin Login</h3>
+            <p class="text-xs text-zinc-500">Enter secure admin PIN.</p>
+            <input type="password" id="admin-pin-input" placeholder="Enter PIN" class="w-full bg-zinc-50 border border-zinc-300 rounded-sm p-2.5 text-xs text-zinc-800 text-center tracking-widest font-mono">
+            <button onclick="verifyAdminPin()" class="w-full bg-[#f85606] hover:bg-orange-700 text-white font-bold py-2.5 rounded-sm text-xs uppercase">Login to Admin</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-[#222222] text-zinc-400 py-10 mt-16 border-t border-zinc-800 space-y-4 text-xs">
+        <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-3 gap-8">
+            <div>
+                <h4 class="text-white font-bold mb-2 uppercase text-sm">Customer Care</h4>
+                <p class="hover:text-white cursor-pointer">Help Center</p>
+                <p class="hover:text-white cursor-pointer">How to Buy</p>
+                <p class="hover:text-white cursor-pointer">Corporate & Bulk Purchasing</p>
+                <p class="hover:text-white cursor-pointer">Returns & Refunds</p>
+            </div>
+            <div>
+                <h4 class="text-white font-bold mb-2 uppercase text-sm">Daraz Pakistan</h4>
+                <p class="hover:text-white cursor-pointer">About Us</p>
+                <p class="hover:text-white cursor-pointer">Careers</p>
+                <p class="hover:text-white cursor-pointer">Daraz Blog</p>
+                <p class="hover:text-white cursor-pointer">Terms & Conditions</p>
+            </div>
+            <div>
+                <h4 class="text-white font-bold mb-2 uppercase text-sm">Official WhatsApp</h4>
+                <p class="text-white font-bold text-sm mb-1">03028372072</p>
+                <p class="text-[11px]">Instant customer support & order confirmation via WhatsApp.</p>
+            </div>
+        </div>
+        <div class="text-center pt-6 border-t border-zinc-800 text-[11px]">
+            <p id="brand-title-footer">&copy; 2026 daraz.pk — Grow Future Platform. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Firebase SDK Script Integration -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/13.3.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/13.3.0/firebase-analytics.js";
+        import { getFirestore, collection, doc, setDoc, updateDoc, deleteDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/13.3.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAtMTp1ukBnfFLx6LGrJIwAM-YK0aEX6po",
+            authDomain: "videoeditor-46437.firebaseapp.com",
+            projectId: "videoeditor-46437",
+            storageBucket: "videoeditor-46437.firebasestorage.app",
+            messagingSenderId: "79652890592",
+            appId: "1:79652890592:web:d7fb91e064896e2f922d85",
+            measurementId: "G-P7LF2YTX3S"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const db = getFirestore(app);
+
+        // 50+ Categories list
+        const defaultCategories = [
+            "All Categories", "Luxury Oud", "Woody & Earthy", "Floral Elegance", "Fresh Aquatic", 
+            "Oriental Spicy", "Citrus Zest", "Musk Collection", "Unisex Designer", "Men's Signature", 
+            "Women's Romance", "Long Lasting EDP", "Attar Concentrates", "Night Out Scents", "Office Wear", 
+            "Summer Breeze", "Winter Warmth", "Arabic Majlis", "French Crafted", "Italian Leather", 
+            "Amber Glow", "Vanilla Dream", "Rose Bouquet", "Jasmine Bliss", "Sandalwood Heritage", 
+            "Patchouli Noir", "Vetiver Fresh", "Bergamot Citrus", "Lavender Calm", "Cinnamon Spice", 
+            "Honey Tobacco", "Leather & Smoke", "Metallic Fresh", "Fruity Punch", "Gourmand Sweet", 
+            "Bestsellers", "Limited Editions", "Royal Gift Sets", "Travel Miniatures", "Pocket Sprays", 
+            "Body Mists", "Hair Mists", "Room Fresheners", "Car Perfumes", "Exclusive Oily", 
+            "Vintage Classics", "Modern Fusion", "Celebrity Inspired", "Custom Blend", "Wedding Specials"
+        ];
+
+        // 50+ Random Initial Perfume Items
+        const defaultProducts = [];
+        const sampleImages = [
+            'https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=500&auto=format&fit=crop&q=60',
+            'https://images.unsplash.com/photo-1594035910387-fea47794261f?w=500&auto=format&fit=crop&q=60',
+            'https://images.unsplash.com/photo-1547887537-6158d64c35b3?w=500&auto=format&fit=crop&q=60',
+            'https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=500&auto=format&fit=crop&q=60',
+            'https://images.unsplash.com/photo-1615397349754-cfa2066a298e?w=500&auto=format&fit=crop&q=60',
+            'https://images.unsplash.com/photo-1588405748880-12d1d2a59f75?w=500&auto=format&fit=crop&q=60'
+        ];
+        
+        for(let i=1; i<=52; i++) {
+            let cat = defaultCategories[1 + (i % (defaultCategories.length - 1))];
+            defaultProducts.push({
+                id: 'prod_' + i,
+                name: `Royal Essence Edition ${i}`,
+                category: cat,
+                price: 1500 + (i * 75) % 3500,
+                desc: `Exquisite luxury fragrance edition ${i} crafted with premium oriental oils and long lasting notes.`,
+                image: sampleImages[i % sampleImages.length]
+            });
+        }
+
+        const defaultBank = { id: 'bank_opay', bankName: 'OPay Bank', accountTitle: 'Usman Amjad', number: '03028372072' };
+
+        // Real-time listeners
+        onSnapshot(collection(db, "perfume_products"), async (snapshot) => {
+            let items = [];
+            snapshot.forEach((docSnap) => { items.push({ id: docSnap.id, ...docSnap.data() }); });
+            if(items.length === 0) {
+                for(let p of defaultProducts) { await setDoc(doc(db, "perfume_products", p.id), p); }
+            } else {
+                window.productsDb = items;
+                window.renderStorefront();
+                window.renderAdminProducts();
+                window.updateMarquee();
+            }
+        });
+
+        onSnapshot(collection(db, "perfume_bank"), async (snapshot) => {
+            let banks = [];
+            snapshot.forEach((docSnap) => { banks.push({ id: docSnap.id, ...docSnap.data() }); });
+            if(banks.length === 0) {
+                await setDoc(doc(db, "perfume_bank", defaultBank.id), defaultBank);
+            } else {
+                window.bankDetails = banks[0];
+                window.renderBankDetails();
+            }
+        });
+
+        window.db = db;
+        window.collection = collection;
+        window.doc = doc;
+        window.setDoc = setDoc;
+        window.updateDoc = updateDoc;
+        window.deleteDoc = deleteDoc;
+        window.categoriesList = defaultCategories;
+    </script>
+
+    <!-- App Logic & UI Control -->
+    <script>
+        window.productsDb = [];
+        window.bankDetails = { bankName: 'OPay Bank', accountTitle: 'Usman Amjad', number: '03028372072' };
+        let currentSelectedProduct = null;
+        let activeCategory = 'All Categories';
+
+        window.addEventListener('DOMContentLoaded', () => {
+            renderCategories();
+            initLiveAnalytics();
+        });
+
+        function compressImageFile(file) {
+            return new Promise((resolve) => {
+                if (!file) { resolve('https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=500&auto=format&fit=crop&q=60'); return; }
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = new Image();
+                    img.onload = function() {
+                        const canvas = document.createElement('canvas');
+                        const maxW = 600;
+                        const scale = maxW / img.width;
+                        canvas.width = img.width > maxW ? maxW : img.width;
+                        canvas.height = img.width > maxW ? img.height * scale : img.height;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                        resolve(canvas.toDataURL('image/jpeg', 0.8));
+                    };
+                    img.onerror = () => resolve('https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=500&auto=format&fit=crop&q=60');
+                    img.src = e.target.result;
+                };
+                reader.onerror = () => resolve('https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=500&auto=format&fit=crop&q=60');
+                reader.readAsDataURL(file);
+            });
+        }
+
+        window.previewProductImage = async function(input) {
+            if (input.files && input.files[0]) {
+                let base64 = await compressImageFile(input.files[0]);
+                document.getElementById('prod-image-base64').value = base64;
+            }
+        };
+
+        window.autoGenerateDescription = function(name) {
+            if(!name) return;
+            const descField = document.getElementById('prod-desc');
+            descField.value = `Experience the luxurious aroma of ${name}. Handcrafted with premium essential oils, rich top notes, and long-lasting 24-hour longevity. Perfect for daily wear and special occasions. Order now via WhatsApp 03028372072.`;
+        };
+
+        function renderCategories() {
+            const container = document.getElementById('categories-container');
+            const dropdown = document.getElementById('prod-category');
+            if(!container || !dropdown) return;
+
+            let catHtml = '';
+            let dropHtml = '';
+
+            window.categoriesList.slice(0, 8).forEach(cat => {
+                let activeClass = activeCategory === cat ? 'border-[#f85606] bg-orange-50 font-bold text-[#f85606]' : 'border-zinc-200 bg-white hover:border-orange-300 text-zinc-700';
+                catHtml += `
+                    <div onclick="filterByCategory('${cat}')" class="cursor-pointer border rounded-sm p-3 text-center transition-all flex flex-col items-center justify-center space-y-1 ${activeClass}">
+                        <i class="fa-solid fa-spray-can-sparkles text-lg text-[#f85606]"></i>
+                        <span class="text-[11px] line-clamp-1">${cat}</span>
+                    </div>
+                `;
+            });
+
+            window.categoriesList.forEach(cat => {
+                dropHtml += `<option value="${cat}">${cat}</option>`;
+            });
+
+            container.innerHTML = catHtml;
+            dropdown.innerHTML = dropHtml;
+        }
+
+        window.filterByCategory = function(cat) {
+            activeCategory = cat;
+            renderStorefront();
+        };
+
+        window.renderStorefront = function() {
+            const homeGrid = document.getElementById('home-products-grid');
+            const shopGrid = document.getElementById('shop-products-grid');
+            if(!homeGrid || !shopGrid) return;
+
+            let filtered = window.productsDb;
+            if(activeCategory !== 'All Categories') {
+                filtered = window.productsDb.filter(p => p.category === activeCategory);
+            }
+
+            let html = '';
+            if(filtered.length === 0) {
+                html = '<p class="text-xs text-zinc-400 col-span-full text-center py-8">No products found.</p>';
+            } else {
+                filtered.forEach(p => {
+                    let discountPrice = Math.round(p.price * 1.25);
+                    html += `
+                        <div class="daraz-card rounded-sm p-2.5 flex flex-col justify-between space-y-2 relative">
+                            <span class="absolute top-2 left-2 bg-[#f85606] text-white text-[9px] font-bold px-1.5 py-0.5 rounded-sm">-20%</span>
+                            <div>
+                                <div class="w-full h-40 rounded-sm overflow-hidden bg-zinc-100 mb-2">
+                                    <img src="${p.image || 'https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=500'}" class="w-full h-full object-cover">
+                                </div>
+                                <h4 class="text-xs font-normal text-zinc-800 line-clamp-2">${p.name}</h4>
+                            </div>
+                            <div class="space-y-1 pt-1">
+                                <div class="text-sm font-black text-[#f85606]">Rs. ${p.price.toLocaleString()}</div>
+                                <div class="flex items-center gap-2">
+                                    <span class="text-[10px] text-zinc-400 line-through">Rs. ${discountPrice.toLocaleString()}</span>
+                                    <span class="text-[10px] text-zinc-500">(543 sold)</span>
+                                </div>
+                                <div class="text-[10px] text-amber-500 font-bold"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i> <span class="text-zinc-400">(4.9)</span></div>
+                                <button onclick="openCheckoutModal('${p.id}')" class="w-full mt-2 bg-[#f85606] hover:bg-orange-700 text-white font-bold py-1.5 rounded-sm text-xs uppercase shadow-sm">
+                                    Buy Now
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+
+            homeGrid.innerHTML = html;
+            shopGrid.innerHTML = html;
+        };
+
+        window.filterProducts = function(query) {
+            const shopGrid = document.getElementById('shop-products-grid');
+            if(!shopGrid) return;
+            let q = query.toLowerCase();
+            let filtered = window.productsDb.filter(p => p.name.toLowerCase().includes(q) || p.category.toLowerCase().includes(q) || p.desc.toLowerCase().includes(q));
+            
+            let html = '';
+            filtered.forEach(p => {
+                let discountPrice = Math.round(p.price * 1.25);
+                html += `
+                    <div class="daraz-card rounded-sm p-2.5 flex flex-col justify-between space-y-2 relative">
+                        <span class="absolute top-2 left-2 bg-[#f85606] text-white text-[9px] font-bold px-1.5 py-0.5 rounded-sm">-20%</span>
+                        <div>
+                            <div class="w-full h-40 rounded-sm overflow-hidden bg-zinc-100 mb-2">
+                                <img src="${p.image}" class="w-full h-full object-cover">
+                            </div>
+                            <h4 class="text-xs font-normal text-zinc-800 line-clamp-2">${p.name}</h4>
+                        </div>
+                        <div class="space-y-1 pt-1">
+                            <div class="text-sm font-black text-[#f85606]">Rs. ${p.price.toLocaleString()}</div>
+                            <div class="flex items-center gap-2">
+                                <span class="text-[10px] text-zinc-400 line-through">Rs. ${discountPrice.toLocaleString()}</span>
+                            </div>
+                            <div class="text-[10px] text-amber-500 font-bold"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                            <button onclick="openCheckoutModal('${p.id}')" class="w-full mt-2 bg-[#f85606] hover:bg-orange-700 text-white font-bold py-1.5 rounded-sm text-xs uppercase shadow-sm">Buy Now</button>
+                        </div>
+                    </div>
+                `;
+            });
+            shopGrid.innerHTML = html;
+        };
+
+        window.updateMarquee = function() {
+            const banner = document.getElementById('marquee-banner');
+            if(!banner || window.productsDb.length === 0) return;
+            let names = window.productsDb.map(p => `🔥 DARAZ FLASH DEAL: ${p.name} (Rs. ${p.price}) - Order on 03028372072 🔥`).join('   |   ');
+            banner.innerText = names;
+        };
+
+        window.openCheckoutModal = function(id) {
+            let p = window.productsDb.find(x => x.id === id);
+            if(!p) return;
+            currentSelectedProduct = p;
+            document.getElementById('modal-prod-title').innerText = p.name;
+            document.getElementById('modal-prod-price').innerText = `Rs. ${p.price.toLocaleString()}`;
+            document.getElementById('checkout-bank-name').innerText = window.bankDetails.bankName || 'OPay Bank';
+            document.getElementById('checkout-bank-title').innerText = window.bankDetails.accountTitle || 'Usman Amjad';
+            document.getElementById('checkout-bank-num').innerText = window.bankDetails.number || '03028372072';
+            document.getElementById('checkout-modal').classList.remove('hidden');
+        };
+
+        window.closeCheckoutModal = function() {
+            document.getElementById('checkout-modal').classList.add('hidden');
+        };
+
+        window.confirmWhatsAppOrder = function() {
+            const name = document.getElementById('cust-name').value.trim();
+            const address = document.getElementById('cust-address').value.trim();
+            const trx = document.getElementById('cust-trx').value.trim();
+
+            if(!name || !address) {
+                alert("Please enter your name and delivery address!");
+                return;
+            }
+
+            let text = `*Daraz Order Confirmation (Grow Future)*%0a` +
+                       `--------------------------------%0a` +
+                       `*Product:* ${currentSelectedProduct.name}%0a` +
+                       `*Price:* Rs. ${currentSelectedProduct.price}%0a` +
+                       `*Customer Name:* ${name}%0a` +
+                       `*Address:* ${address}%0a` +
+                       `*OPay Trx ID:* ${trx || 'Pending / Direct Transfer'}%0a` +
+                       `--------------------------------%0a` +
+                       `Please process my order!`;
+
+            window.open(`https://wa.me/923028372072?text=${text}`, '_blank');
+            closeCheckoutModal();
+        };
+
+        window.switchTab = function(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+
+        window.openAdminModal = function() {
+            document.getElementById('admin-modal').classList.remove('hidden');
+        };
+        window.closeAdminModal = function() {
+            document.getElementById('admin-modal').classList.add('hidden');
+        };
+
+        window.verifyAdminPin = function() {
+            let pin = document.getElementById('admin-pin-input').value.trim();
+            if(pin === "4172") {
+                closeAdminModal();
+                document.getElementById('admin-pin-input').value = '';
+                switchTab('admin-panel');
+            } else {
+                alert("Incorrect PIN!");
+            }
+        };
+
+        window.saveBrandSettings = function() {
+            let name = document.getElementById('admin-brand-name').value.trim();
+            if(!name) return;
+            document.getElementById('brand-title-header').innerText = name;
+            document.getElementById('brand-title-footer').innerHTML = `&copy; 2026 ${name} — Grow Future Platform. All Rights Reserved.`;
+            alert("Brand name updated successfully!");
+        };
+
+        window.renderBankDetails = function() {
+            let b = window.bankDetails;
+            document.getElementById('bank-name').value = b.bankName || '';
+            document.getElementById('bank-title').value = b.accountTitle || '';
+            document.getElementById('bank-number').value = b.number || '';
+        };
+
+        window.saveBankDetail = async function() {
+            const bankName = document.getElementById('bank-name').value.trim();
+            const accountTitle = document.getElementById('bank-title').value.trim();
+            const number = document.getElementById('bank-number').value.trim();
+
+            if(!bankName || !accountTitle || !number) {
+                alert("Please fill in all bank details!");
+                return;
+            }
+
+            try {
+                await window.setDoc(window.doc(window.db, "perfume_bank", "bank_opay"), { bankName, accountTitle, number });
+                window.bankDetails = { bankName, accountTitle, number };
+                alert("Bank account details saved successfully!");
+            } catch(e) {
+                alert("Error: " + e.message);
+            }
+        };
+
+        window.deleteBankDetail = async function() {
+            if(confirm("Are you sure you want to delete bank details?")) {
+                try {
+                    await window.deleteDoc(window.doc(window.db, "perfume_bank", "bank_opay"));
+                    document.getElementById('bank-name').value = '';
+                    document.getElementById('bank-title').value = '';
+                    document.getElementById('bank-number').value = '';
+                    alert("Bank details deleted!");
+                } catch(e) {
+                    alert("Error: " + e.message);
+                }
+            }
+        };
+
+        window.processBulkCsvUpload = function() {
+            const fileInput = document.getElementById('bulk-csv-file');
+            if(!fileInput.files || !fileInput.files[0]) {
+                alert("Please select a CSV file first!");
+                return;
+            }
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+            reader.onload = async function(e) {
+                const text = e.target.result;
+                const lines = text.split('\n');
+                let count = 0;
+                for(let i=1; i<lines.length; i++) {
+                    let line = lines[i].trim();
+                    if(!line) continue;
+                    let cols = line.split(',');
+                    if(cols.length >= 3) {
+                        let name = cols[0].trim();
+                        let category = cols[1].trim() || 'Luxury Oud';
+                        let price = parseFloat(cols[2].trim()) || 2000;
+                        let desc = cols[3] ? cols[3].trim() : `Daraz flash deal ${name}`;
+                        let image = cols[4] ? cols[4].trim() : 'https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=500';
+                        
+                        let prodId = 'bulk_' + Date.now() + '_' + i;
+                        await window.setDoc(window.doc(window.db, "perfume_products", prodId), { name, category, price, desc, image });
+                        count++;
+                    }
+                }
+                alert(`Successfully imported ${count} products in bulk!`);
+                fileInput.value = '';
+            };
+            reader.readAsText(file);
+        };
+
+        window.renderAdminProducts = function() {
+            const list = document.getElementById('admin-products-list');
+            if(!list) return;
+            if(window.productsDb.length === 0) {
+                list.innerHTML = '<p class="text-xs text-zinc-400">No products added yet.</p>';
+                return;
+            }
+            let html = '';
+            window.productsDb.forEach(p => {
+                html += `
+                    <div class="flex justify-between items-center bg-white p-3 rounded-sm border border-zinc-200 text-xs shadow-sm">
+                        <div class="flex items-center gap-3">
+                            <img src="${p.image}" class="w-10 h-10 object-cover rounded-sm">
+                            <div>
+                                <p class="text-zinc-800 font-bold">${p.name}</p>
+                                <p class="text-zinc-500">${p.category} — Rs. ${p.price}</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="editProduct('${p.id}')" class="bg-orange-100 text-[#f85606] px-3 py-1.5 rounded-sm font-bold">Edit</button>
+                            <button onclick="deleteProduct('${p.id}')" class="bg-red-100 text-red-600 px-3 py-1.5 rounded-sm font-bold">Delete</button>
+                        </div>
+                    </div>
+                `;
+            });
+            list.innerHTML = html;
+        };
+
+        window.saveProduct = async function() {
+            const id = document.getElementById('edit-product-id').value || 'p_' + Date.now();
+            const name = document.getElementById('prod-name').value.trim();
+            const category = document.getElementById('prod-category').value;
+            const price = parseFloat(document.getElementById('prod-price').value);
+            const desc = document.getElementById('prod-desc').value.trim();
+            const image = document.getElementById('prod-image-base64').value || 'https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=500';
+
+            if(!name || isNaN(price)) {
+                alert("Please enter valid product name and price!");
+                return;
+            }
+
+            try {
+                await window.setDoc(window.doc(window.db, "perfume_products", id), { name, category, price, desc, image });
+                alert("Product saved & published successfully!");
+                resetProductForm();
+            } catch(e) {
+                alert("Error saving product: " + e.message);
+            }
+        };
+
+        window.editProduct = function(id) {
+            let p = window.productsDb.find(x => x.id === id);
+            if(!p) return;
+            document.getElementById('edit-product-id').value = p.id;
+            document.getElementById('prod-name').value = p.name;
+            document.getElementById('prod-category').value = p.category;
+            document.getElementById('prod-price').value = p.price;
+            document.getElementById('prod-desc').value = p.desc;
+            document.getElementById('prod-image-base64').value = p.image;
+            document.getElementById('product-form-title').innerText = "✏️ Edit Perfume Product";
+            document.getElementById('prod-save-btn').innerText = "Update Product";
+            document.getElementById('prod-cancel-btn').classList.remove('hidden');
+        };
+
+        window.deleteProduct = async function(id) {
+            if(confirm("Are you sure you want to delete this perfume?")) {
+                try {
+                    await window.deleteDoc(window.doc(window.db, "perfume_products", id));
+                    alert("Product deleted successfully!");
+                } catch(e) {
+                    alert("Error deleting product: " + e.message);
+                }
+            }
+        };
+
+        window.resetProductForm = function() {
+            document.getElementById('edit-product-id').value = '';
+            document.getElementById('prod-name').value = '';
+            document.getElementById('prod-price').value = '';
+            document.getElementById('prod-desc').value = '';
+            document.getElementById('prod-image-base64').value = '';
+            document.getElementById('product-form-title').innerText = "➕ Add New Perfume Product (Auto AI Description)";
+            document.getElementById('prod-save-btn').innerText = "Save & Publish Product";
+            document.getElementById('prod-cancel-btn').classList.add('hidden');
+        };
+
+        function initLiveAnalytics() {
+            let baseOrders = (7 + Math.random() * 3).toFixed(1);
+            let totalSalesNum = Math.floor(800000 + Math.random() * 80000);
+            let totalItemsNum = Math.floor(740 + Math.random() * 40);
+
+            document.getElementById('stat-total-sales').innerText = `Rs. ${totalSalesNum.toLocaleString()}`;
+            document.getElementById('stat-daily-orders').innerText = `${baseOrders} / day`;
+            document.getElementById('stat-total-items').innerText = `${totalItemsNum} Units`;
+        }
+
+        window.addEventListener('click', e => {
+            const c = document.createElement('div');
+            c.className = 'click-circle'; c.style.left = `${e.pageX}px`; c.style.top = `${e.pageY}px`;
+            document.body.appendChild(c); setTimeout(() => c.remove(), 600);
+        });
+    </script>
+</body>
+</html>
