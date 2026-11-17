@@ -343,11 +343,13 @@
 
     </main>
 
-    <!-- Vendor Registration Modal (Rs. 500 Fee Pop-up) -->
-    <div id="vendor-reg-modal" class="fixed inset-0 bg-black/70 flex items-center justify-center z-50 hidden p-4">
-        <div class="bg-white border border-zinc-200 p-6 sm:p-8 rounded-lg w-full max-w-md relative space-y-5 shadow-2xl">
-            <button onclick="closeVendorRegModal()" class="absolute top-4 right-4 text-zinc-400 hover:text-zinc-800"><i class="fa-solid fa-xmark text-lg"></i></button>
-            <div class="space-y-1 text-center">
+    <!-- Vendor Registration Modal (Rs. 500 Fee Pop-up - Fully Scrollable & Fixed Close Button) -->
+    <div id="vendor-reg-modal" class="fixed inset-0 bg-black/70 flex items-center justify-center z-50 hidden p-3 sm:p-6 overflow-y-auto">
+        <div class="bg-white border border-zinc-200 p-5 sm:p-8 rounded-lg w-full max-w-md relative space-y-4 shadow-2xl my-auto max-h-[90vh] overflow-y-auto">
+            <!-- Fixed Sticky Close Button -->
+            <button onclick="closeVendorRegModal()" class="sticky top-0 float-right bg-zinc-100 hover:bg-zinc-200 text-zinc-700 w-8 h-8 rounded-full flex items-center justify-center font-bold z-10 shadow-sm"><i class="fa-solid fa-xmark text-sm"></i></button>
+            
+            <div class="space-y-1 text-center pt-2">
                 <span class="bg-orange-100 text-[#f85606] text-[10px] font-bold px-3 py-1 rounded-full uppercase">
                     🏪 Vendor Lifetime Registration
                 </span>
@@ -356,7 +358,7 @@
             </div>
 
             <!-- Bank Details Box -->
-            <div class="bg-zinc-50 border border-zinc-200 p-4 rounded-sm text-xs font-mono space-y-1 text-zinc-700">
+            <div class="bg-zinc-50 border border-zinc-200 p-3 rounded-sm text-xs font-mono space-y-1 text-zinc-700">
                 <p class="text-[#f85606] font-bold pb-1">💳 OPay Bank Transfer Details:</p>
                 <p><strong>Bank Name:</strong> OPay Bank</p>
                 <p><strong>Account Title:</strong> Usman Amjad</p>
@@ -390,10 +392,10 @@
     </div>
 
     <!-- Checkout Modal -->
-    <div id="checkout-modal" class="fixed inset-0 bg-black/70 flex items-center justify-center z-50 hidden p-4">
-        <div class="bg-white border border-zinc-200 p-6 sm:p-8 rounded-lg w-full max-w-md relative space-y-6 shadow-2xl">
-            <button onclick="closeCheckoutModal()" class="absolute top-4 right-4 text-zinc-400 hover:text-zinc-800"><i class="fa-solid fa-xmark text-lg"></i></button>
-            <div class="space-y-1">
+    <div id="checkout-modal" class="fixed inset-0 bg-black/70 flex items-center justify-center z-50 hidden p-4 overflow-y-auto">
+        <div class="bg-white border border-zinc-200 p-6 sm:p-8 rounded-lg w-full max-w-md relative space-y-6 shadow-2xl my-auto max-h-[90vh] overflow-y-auto">
+            <button onclick="closeCheckoutModal()" class="sticky top-0 float-right bg-zinc-100 hover:bg-zinc-200 text-zinc-700 w-8 h-8 rounded-full flex items-center justify-center font-bold z-10 shadow-sm"><i class="fa-solid fa-xmark text-lg"></i></button>
+            <div class="space-y-1 pt-2">
                 <span class="text-[10px] font-bold text-[#f85606] uppercase tracking-wider">World Mart Secure Checkout</span>
                 <h3 id="modal-prod-title" class="text-xl font-black text-zinc-800">Order Perfume</h3>
                 <p id="modal-prod-price" class="text-[#f85606] font-black text-lg">Rs. 0</p>
