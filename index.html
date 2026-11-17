@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daraz PK — Online Shopping in Pakistan | Perfumes & Fragrances</title>
+    <title>World Mart — Online Shopping in Pakistan | Perfumes & Fragrances</title>
     <!-- Tailwind CSS & FontAwesome -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
@@ -37,7 +37,7 @@
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <div class="flex gap-4">
                 <span>SAVE MORE ON APP</span>
-                <span>SELL ON DARAZ</span>
+                <span>SELL ON WORLD MART</span>
                 <span>CUSTOMER CARE</span>
             </div>
             <div class="flex gap-4">
@@ -53,7 +53,7 @@
             <!-- Logo -->
             <div class="flex items-center space-x-2 cursor-pointer" onclick="switchTab('home')">
                 <div class="flex flex-col">
-                    <span id="brand-title-header" class="text-2xl font-black italic tracking-tighter text-white leading-none">daraz.pk</span>
+                    <span id="brand-title-header" class="text-2xl font-black italic tracking-tighter text-white leading-none">world mart</span>
                     <span class="text-[9px] font-bold text-white tracking-widest uppercase mt-0.5">GROW FUTURE STORE</span>
                 </div>
             </div>
@@ -61,7 +61,7 @@
             <!-- Search Bar -->
             <div class="flex-1 max-w-2xl hidden md:flex">
                 <div class="flex w-full bg-white rounded-sm overflow-hidden shadow-sm">
-                    <input type="text" id="daraz-search-input" oninput="filterProducts(this.value)" placeholder="Search in Daraz (Perfumes, Fragrances...)" class="flex-1 px-4 py-2.5 text-xs text-zinc-800 focus:outline-none">
+                    <input type="text" id="daraz-search-input" oninput="filterProducts(this.value)" placeholder="Search in World Mart (Perfumes, Fragrances...)" class="flex-1 px-4 py-2.5 text-xs text-zinc-800 focus:outline-none">
                     <button class="bg-[#ffe1d2] hover:bg-[#ffcbb2] text-[#f85606] px-6 flex items-center justify-center transition-colors">
                         <i class="fa-solid fa-magnifying-glass text-sm"></i>
                     </button>
@@ -70,7 +70,7 @@
 
             <!-- Right Nav Icons -->
             <div class="flex items-center gap-3">
-                <a href="https://wa.me/923028372072?text=Hello%20Daraz%20Store,%20I%20want%20to%20order%20perfumes." target="_blank" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-3.5 py-2 rounded-sm text-xs flex items-center gap-1.5 shadow">
+                <a href="https://wa.me/923028372072?text=Hello%20World%20Mart,%20I%20want%20to%20order%20perfumes." target="_blank" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-3.5 py-2 rounded-sm text-xs flex items-center gap-1.5 shadow">
                     <i class="fa-brands fa-whatsapp text-sm"></i> <span class="hidden sm:inline">Live Chat</span>
                 </a>
                 <button onclick="switchTab('analytics-tab')" class="bg-orange-700 hover:bg-orange-800 text-white font-bold px-3.5 py-2 rounded-sm text-xs hidden sm:flex items-center gap-1">
@@ -86,20 +86,19 @@
     <!-- Marquee Banner for Newly Added Products -->
     <div class="bg-[#fff3ed] border-y border-orange-200 py-2 overflow-hidden whitespace-nowrap">
         <div id="marquee-banner" class="inline-block animate-marquee text-xs font-bold text-[#f85606] tracking-wider">
-            🔥 MEGA FLASH SALE: Up to 50% OFF on Luxury Perfumes! Free Delivery & OPay Instant Checkout on 03028372072. 🔥
+            🔥 WORLD MART MEGA FLASH SALE: Up to 50% OFF on Luxury Perfumes! Free Delivery & OPay Instant Checkout on 03028372072. 🔥
         </div>
     </div>
 
     <!-- Main Content Area -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-grow w-full space-y-6">
 
-        <!-- 1. HOME TAB (Daraz Style Storefront) -->
+        <!-- 1. HOME TAB -->
         <div id="home" class="tab-content active space-y-6">
-            <!-- Daraz Hero Banner Slider Area -->
             <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                 <div class="md:col-span-3 bg-gradient-to-r from-orange-600 to-amber-600 rounded-lg p-8 sm:p-12 text-white shadow-md flex flex-col justify-center space-y-4">
                     <span class="bg-black/30 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider w-max">
-                        ⚡ Daraz Verified Official Store
+                        ⚡ World Mart Verified Official Store
                     </span>
                     <h2 class="text-3xl sm:text-5xl font-black tracking-tight leading-none">
                         Mega Fragrance <span class="text-amber-200">Festival</span>
@@ -144,7 +143,7 @@
                 </div>
             </div>
 
-            <!-- Categories Section (Daraz Style Grid) -->
+            <!-- Categories Section -->
             <div class="bg-white rounded-lg p-5 border border-zinc-200 shadow-sm space-y-4">
                 <h3 class="text-sm font-bold text-zinc-800 uppercase tracking-wide">
                     Categories <span class="text-xs text-zinc-400 font-normal">(50+ Available)</span>
@@ -174,7 +173,7 @@
             <div class="bg-white rounded-lg p-5 border border-zinc-200 shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div>
                     <h2 class="text-xl font-bold text-zinc-800">All Perfumes Catalog</h2>
-                    <p class="text-xs text-zinc-500">Browse complete inventory with Daraz verified badges.</p>
+                    <p class="text-xs text-zinc-500">Browse complete inventory with World Mart verified badges.</p>
                 </div>
                 <div class="w-full sm:w-80">
                     <input type="text" id="search-product-input" oninput="filterProducts(this.value)" placeholder="Search products..." class="w-full bg-zinc-50 border border-zinc-300 rounded-sm px-3 py-2 text-xs text-zinc-800 focus:outline-none focus:border-[#f85606]">
@@ -191,7 +190,7 @@
                 <div class="flex justify-between items-center border-b border-zinc-100 pb-4">
                     <div>
                         <span class="bg-orange-100 text-[#f85606] text-[10px] font-bold px-3 py-1 rounded-full uppercase">
-                            📊 Daraz Seller Center Analytics
+                            📊 World Mart Seller Analytics
                         </span>
                         <h2 class="text-2xl font-black text-zinc-800 mt-2">Live Performance (Last 3 Months)</h2>
                     </div>
@@ -242,7 +241,7 @@
             </div>
         </div>
 
-        <!-- 4. ADMIN PANEL TAB (Protected by PIN 4172 - PIN hidden from text) -->
+        <!-- 4. ADMIN PANEL TAB (Protected by PIN 4172 - PIN hidden from UI text) -->
         <div id="admin-panel" class="tab-content space-y-6">
             <div class="max-w-4xl mx-auto bg-white rounded-lg p-8 border border-zinc-200 shadow-sm space-y-8">
                 <div class="flex justify-between items-center border-b border-zinc-100 pb-4">
@@ -259,7 +258,7 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div>
                             <label class="block text-[11px] font-bold text-zinc-600 mb-1">Store / Brand Name</label>
-                            <input type="text" id="admin-brand-name" value="daraz.pk" class="w-full bg-white border border-zinc-300 rounded-sm p-2.5 text-xs text-zinc-800">
+                            <input type="text" id="admin-brand-name" value="world mart" class="w-full bg-white border border-zinc-300 rounded-sm p-2.5 text-xs text-zinc-800">
                         </div>
                         <div class="flex items-end">
                             <button onclick="saveBrandSettings()" class="w-full bg-[#f85606] hover:bg-orange-700 text-white font-bold py-2.5 rounded-sm text-xs">Update Brand Name</button>
@@ -334,7 +333,7 @@
         <div class="bg-white border border-zinc-200 p-6 sm:p-8 rounded-lg w-full max-w-md relative space-y-6 shadow-2xl">
             <button onclick="closeCheckoutModal()" class="absolute top-4 right-4 text-zinc-400 hover:text-zinc-800"><i class="fa-solid fa-xmark text-lg"></i></button>
             <div class="space-y-1">
-                <span class="text-[10px] font-bold text-[#f85606] uppercase tracking-wider">Daraz Secure Checkout</span>
+                <span class="text-[10px] font-bold text-[#f85606] uppercase tracking-wider">World Mart Secure Checkout</span>
                 <h3 id="modal-prod-title" class="text-xl font-black text-zinc-800">Order Perfume</h3>
                 <p id="modal-prod-price" class="text-[#f85606] font-black text-lg">Rs. 0</p>
             </div>
@@ -391,10 +390,10 @@
                 <p class="hover:text-white cursor-pointer">Returns & Refunds</p>
             </div>
             <div>
-                <h4 class="text-white font-bold mb-2 uppercase text-sm">Daraz Pakistan</h4>
+                <h4 class="text-white font-bold mb-2 uppercase text-sm">World Mart Pakistan</h4>
                 <p class="hover:text-white cursor-pointer">About Us</p>
                 <p class="hover:text-white cursor-pointer">Careers</p>
-                <p class="hover:text-white cursor-pointer">Daraz Blog</p>
+                <p class="hover:text-white cursor-pointer">World Mart Blog</p>
                 <p class="hover:text-white cursor-pointer">Terms & Conditions</p>
             </div>
             <div>
@@ -404,24 +403,24 @@
             </div>
         </div>
         <div class="text-center pt-6 border-t border-zinc-800 text-[11px]">
-            <p id="brand-title-footer">&copy; 2026 daraz.pk — Grow Future Platform. All Rights Reserved.</p>
+            <p id="brand-title-footer">&copy; 2026 world mart — Grow Future Platform. All Rights Reserved.</p>
         </div>
     </footer>
 
-    <!-- Firebase SDK Script Integration -->
+    <!-- Firebase SDK Script Integration with New Credentials -->
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/13.3.0/firebase-app.js";
-        import { getAnalytics } from "https://www.gstatic.com/firebasejs/13.3.0/firebase-analytics.js";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/13.4.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/13.4.0/firebase-analytics.js";
         import { getFirestore, collection, doc, setDoc, updateDoc, deleteDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/13.3.0/firebase-firestore.js";
 
         const firebaseConfig = {
-            apiKey: "AIzaSyAtMTp1ukBnfFLx6LGrJIwAM-YK0aEX6po",
-            authDomain: "videoeditor-46437.firebaseapp.com",
-            projectId: "videoeditor-46437",
-            storageBucket: "videoeditor-46437.firebasestorage.app",
-            messagingSenderId: "79652890592",
-            appId: "1:79652890592:web:d7fb91e064896e2f922d85",
-            measurementId: "G-P7LF2YTX3S"
+            apiKey: "AIzaSyCbFL1H2jSes_dcTT2RTtgpXiefvbIvE1s",
+            authDomain: "world-mart-72b3e.firebaseapp.com",
+            projectId: "world-mart-72b3e",
+            storageBucket: "world-mart-72b3e.firebasestorage.app",
+            messagingSenderId: "373761631292",
+            appId: "1:373761631292:web:b1889444d58c9c3dad8f39",
+            measurementId: "G-MGKM6N9RR0"
         };
 
         const app = initializeApp(firebaseConfig);
@@ -661,7 +660,7 @@
         window.updateMarquee = function() {
             const banner = document.getElementById('marquee-banner');
             if(!banner || window.productsDb.length === 0) return;
-            let names = window.productsDb.map(p => `🔥 DARAZ FLASH DEAL: ${p.name} (Rs. ${p.price}) - Order on 03028372072 🔥`).join('   |   ');
+            let names = window.productsDb.map(p => `🔥 WORLD MART DEAL: ${p.name} (Rs. ${p.price}) - Order on 03028372072 🔥`).join('   |   ');
             banner.innerText = names;
         };
 
@@ -691,7 +690,7 @@
                 return;
             }
 
-            let text = `*Daraz Order Confirmation (Grow Future)*%0a` +
+            let text = `*World Mart Order Confirmation*%0a` +
                        `--------------------------------%0a` +
                        `*Product:* ${currentSelectedProduct.name}%0a` +
                        `*Price:* Rs. ${currentSelectedProduct.price}%0a` +
@@ -797,7 +796,7 @@
                         let name = cols[0].trim();
                         let category = cols[1].trim() || 'Luxury Oud';
                         let price = parseFloat(cols[2].trim()) || 2000;
-                        let desc = cols[3] ? cols[3].trim() : `Daraz flash deal ${name}`;
+                        let desc = cols[3] ? cols[3].trim() : `World Mart deal ${name}`;
                         let image = cols[4] ? cols[4].trim() : 'https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=500';
                         
                         let prodId = 'bulk_' + Date.now() + '_' + i;
