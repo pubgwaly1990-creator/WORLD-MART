@@ -47,7 +47,7 @@
         </div>
     </div>
 
-    <!-- Main Daraz Header -->
+    <!-- Main Header -->
     <header class="bg-[#f85606] sticky top-0 z-50 shadow-md">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
             <!-- Logo -->
@@ -70,6 +70,9 @@
 
             <!-- Right Nav Icons -->
             <div class="flex items-center gap-3">
+                <button onclick="openVendorRegistrationModal()" class="bg-amber-400 hover:bg-amber-300 text-zinc-950 font-black px-3.5 py-2 rounded-sm text-xs flex items-center gap-1.5 shadow">
+                    <i class="fa-solid fa-store"></i> <span class="hidden sm:inline">Sell on World Mart (Rs. 500)</span>
+                </button>
                 <a href="https://wa.me/923028372072?text=Hello%20World%20Mart,%20I%20want%20to%20order%20perfumes." target="_blank" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-3.5 py-2 rounded-sm text-xs flex items-center gap-1.5 shadow">
                     <i class="fa-brands fa-whatsapp text-sm"></i> <span class="hidden sm:inline">Live Chat</span>
                 </a>
@@ -83,7 +86,7 @@
         </div>
     </header>
 
-    <!-- Marquee Banner for Newly Added Products -->
+    <!-- Marquee Banner -->
     <div class="bg-[#fff3ed] border-y border-orange-200 py-2 overflow-hidden whitespace-nowrap">
         <div id="marquee-banner" class="inline-block animate-marquee text-xs font-bold text-[#f85606] tracking-wider">
             🔥 WORLD MART MEGA FLASH SALE: Up to 50% OFF on Luxury Perfumes! Free Delivery & OPay Instant Checkout on 03028372072. 🔥
@@ -106,9 +109,12 @@
                     <p class="text-xs sm:text-sm text-orange-100 max-w-lg">
                         Explore 50+ branded luxury perfumes. Direct WhatsApp ordering & secure OPay bank payments.
                     </p>
-                    <div class="pt-2">
+                    <div class="pt-2 flex gap-3">
                         <button onclick="switchTab('shop')" class="bg-white text-[#f85606] font-black px-6 py-2.5 rounded-sm text-xs uppercase tracking-wider shadow hover:bg-orange-50 transition-colors">
                             SHOP NOW →
+                        </button>
+                        <button onclick="openVendorRegistrationModal()" class="bg-zinc-900 hover:bg-black text-amber-400 font-bold px-5 py-2.5 rounded-sm text-xs uppercase tracking-wider shadow">
+                            Register as Vendor (Rs. 500)
                         </button>
                     </div>
                 </div>
@@ -241,15 +247,24 @@
             </div>
         </div>
 
-        <!-- 4. ADMIN PANEL TAB (Protected by PIN 4172 - PIN hidden from UI text) -->
+        <!-- 4. ADMIN PANEL TAB (Protected by PIN 4172) -->
         <div id="admin-panel" class="tab-content space-y-6">
             <div class="max-w-4xl mx-auto bg-white rounded-lg p-8 border border-zinc-200 shadow-sm space-y-8">
                 <div class="flex justify-between items-center border-b border-zinc-100 pb-4">
                     <div>
                         <h2 class="text-2xl font-black text-zinc-800">🔒 Admin Dashboard</h2>
-                        <p class="text-xs text-zinc-500">Manage store settings, bank account, bulk CSV upload, and products.</p>
+                        <p class="text-xs text-zinc-500">Manage vendor approvals, bank account, bulk CSV upload, and products.</p>
                     </div>
                     <button onclick="switchTab('home')" class="bg-zinc-200 text-zinc-700 hover:bg-zinc-300 px-4 py-2 rounded-sm text-xs font-bold">Close Admin</button>
+                </div>
+
+                <!-- Vendor Registrations Approvals (Rs. 500 Payment Verification) -->
+                <div class="bg-orange-50 p-6 rounded-lg border border-orange-200 space-y-4">
+                    <h3 class="text-sm font-bold text-[#f85606]">⏳ Vendor Registration Requests (Rs. 500 Lifetime Fee)</h3>
+                    <p class="text-xs text-zinc-600">Approve vendor payments to automatically issue admin PIN (4172) via WhatsApp notification.</p>
+                    <div id="admin-vendors-list" class="space-y-3 max-h-60 overflow-y-auto">
+                        <p class="text-xs text-zinc-400">Loading vendor requests...</p>
+                    </div>
                 </div>
 
                 <!-- Store Settings Manager -->
@@ -281,7 +296,7 @@
                     </div>
                 </div>
 
-                <!-- BULK UPLOAD PRODUCTS (CSV / Excel format) -->
+                <!-- BULK UPLOAD PRODUCTS -->
                 <div class="bg-zinc-50 p-6 rounded-lg border border-zinc-200 space-y-4">
                     <h3 class="text-sm font-bold text-[#f85606]">📁 Bulk Upload Products (CSV File)</h3>
                     <p class="text-xs text-zinc-500">Upload a CSV file with columns: <code class="text-[#f85606] font-mono">name, category, price, desc, image</code></p>
@@ -328,6 +343,52 @@
 
     </main>
 
+    <!-- Vendor Registration Modal (Rs. 500 Fee Pop-up) -->
+    <div id="vendor-reg-modal" class="fixed inset-0 bg-black/70 flex items-center justify-center z-50 hidden p-4">
+        <div class="bg-white border border-zinc-200 p-6 sm:p-8 rounded-lg w-full max-w-md relative space-y-5 shadow-2xl">
+            <button onclick="closeVendorRegModal()" class="absolute top-4 right-4 text-zinc-400 hover:text-zinc-800"><i class="fa-solid fa-xmark text-lg"></i></button>
+            <div class="space-y-1 text-center">
+                <span class="bg-orange-100 text-[#f85606] text-[10px] font-bold px-3 py-1 rounded-full uppercase">
+                    🏪 Vendor Lifetime Registration
+                </span>
+                <h3 class="text-xl font-black text-zinc-800 mt-2">Add Products & Sell on World Mart</h3>
+                <p class="text-xs text-zinc-500">Pay Rs. 500 one-time fee to get lifetime unlimited product adding access & admin panel PIN (4172).</p>
+            </div>
+
+            <!-- Bank Details Box -->
+            <div class="bg-zinc-50 border border-zinc-200 p-4 rounded-sm text-xs font-mono space-y-1 text-zinc-700">
+                <p class="text-[#f85606] font-bold pb-1">💳 OPay Bank Transfer Details:</p>
+                <p><strong>Bank Name:</strong> OPay Bank</p>
+                <p><strong>Account Title:</strong> Usman Amjad</p>
+                <p><strong>Account Number:</strong> <span class="text-[#f85606] font-bold">03028372072</span></p>
+                <p><strong>Registration Fee:</strong> <span class="text-emerald-600 font-black">Rs. 500 (Lifetime)</span></p>
+            </div>
+
+            <div class="space-y-3">
+                <div>
+                    <label class="block text-xs font-bold text-zinc-600 mb-1">Your Full Name</label>
+                    <input type="text" id="v-name" placeholder="Muhammad Ali" class="w-full bg-zinc-50 border border-zinc-300 rounded-sm px-3 py-2.5 text-xs text-zinc-800">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-zinc-600 mb-1">Your WhatsApp Number (For PIN & Access)</label>
+                    <input type="text" id="v-whatsapp" placeholder="03001234567" class="w-full bg-zinc-50 border border-zinc-300 rounded-sm px-3 py-2.5 text-xs text-zinc-800">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-zinc-600 mb-1">OPay Transaction ID / Receipt Screenshot</label>
+                    <input type="text" id="v-trx" placeholder="e.g. TRX98237465" class="w-full bg-zinc-50 border border-zinc-300 rounded-sm px-3 py-2.5 text-xs text-zinc-800">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-zinc-600 mb-1">Upload Payment Screenshot (Optional)</label>
+                    <input type="file" id="v-receipt" accept="image/*" class="w-full bg-zinc-50 border border-zinc-300 rounded-sm p-2 text-xs text-zinc-800 file:bg-[#f85606] file:text-white file:border-0 file:rounded-sm file:px-2 file:py-1">
+                </div>
+            </div>
+
+            <button onclick="submitVendorRegistration()" class="w-full bg-[#f85606] hover:bg-orange-700 text-white font-bold py-3 rounded-sm text-xs uppercase tracking-wider shadow">
+                Submit Registration (Rs. 500 Fee)
+            </button>
+        </div>
+    </div>
+
     <!-- Checkout Modal -->
     <div id="checkout-modal" class="fixed inset-0 bg-black/70 flex items-center justify-center z-50 hidden p-4">
         <div class="bg-white border border-zinc-200 p-6 sm:p-8 rounded-lg w-full max-w-md relative space-y-6 shadow-2xl">
@@ -338,7 +399,6 @@
                 <p id="modal-prod-price" class="text-[#f85606] font-black text-lg">Rs. 0</p>
             </div>
 
-            <!-- Bank Details Box -->
             <div class="bg-zinc-50 border border-zinc-200 p-4 rounded-sm text-xs font-mono space-y-1 text-zinc-700">
                 <p class="text-[#f85606] font-bold pb-1">💳 OPay Bank Transfer Details:</p>
                 <p><strong>Bank Name:</strong> <span id="checkout-bank-name">OPay Bank</span></p>
@@ -368,7 +428,7 @@
         </div>
     </div>
 
-    <!-- Admin PIN Modal (PIN 4172 required, PIN text hidden) -->
+    <!-- Admin PIN Modal (PIN 4172 required) -->
     <div id="admin-modal" class="fixed inset-0 bg-black/70 flex items-center justify-center z-50 hidden p-4">
         <div class="bg-white border border-zinc-200 p-6 rounded-lg w-full max-w-sm relative space-y-4 shadow-2xl">
             <button onclick="closeAdminModal()" class="absolute top-3 right-3 text-zinc-400 hover:text-zinc-800"><i class="fa-solid fa-xmark"></i></button>
@@ -407,7 +467,7 @@
         </div>
     </footer>
 
-    <!-- Firebase SDK Script Integration with New Credentials -->
+    <!-- Firebase SDK Script Integration -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/13.4.0/firebase-app.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/13.4.0/firebase-analytics.js";
@@ -427,7 +487,6 @@
         const analytics = getAnalytics(app);
         const db = getFirestore(app);
 
-        // 50+ Categories list
         const defaultCategories = [
             "All Categories", "Luxury Oud", "Woody & Earthy", "Floral Elegance", "Fresh Aquatic", 
             "Oriental Spicy", "Citrus Zest", "Musk Collection", "Unisex Designer", "Men's Signature", 
@@ -441,7 +500,6 @@
             "Vintage Classics", "Modern Fusion", "Celebrity Inspired", "Custom Blend", "Wedding Specials"
         ];
 
-        // 50+ Random Initial Perfume Items
         const defaultProducts = [];
         const sampleImages = [
             'https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=500&auto=format&fit=crop&q=60',
@@ -466,7 +524,6 @@
 
         const defaultBank = { id: 'bank_opay', bankName: 'OPay Bank', accountTitle: 'Usman Amjad', number: '03028372072' };
 
-        // Real-time listeners
         onSnapshot(collection(db, "perfume_products"), async (snapshot) => {
             let items = [];
             snapshot.forEach((docSnap) => { items.push({ id: docSnap.id, ...docSnap.data() }); });
@@ -489,6 +546,12 @@
                 window.bankDetails = banks[0];
                 window.renderBankDetails();
             }
+        });
+
+        onSnapshot(collection(db, "vendor_registrations"), (snapshot) => {
+            let vendors = [];
+            snapshot.forEach((docSnap) => { vendors.push({ id: docSnap.id, ...docSnap.data() }); });
+            window.renderAdminVendors(vendors);
         });
 
         window.db = db;
@@ -662,6 +725,90 @@
             if(!banner || window.productsDb.length === 0) return;
             let names = window.productsDb.map(p => `🔥 WORLD MART DEAL: ${p.name} (Rs. ${p.price}) - Order on 03028372072 🔥`).join('   |   ');
             banner.innerText = names;
+        };
+
+        window.openVendorRegistrationModal = function() {
+            document.getElementById('vendor-reg-modal').classList.remove('hidden');
+        };
+
+        window.closeVendorRegModal = function() {
+            document.getElementById('vendor-reg-modal').classList.add('hidden');
+        };
+
+        window.submitVendorRegistration = async function() {
+            const name = document.getElementById('v-name').value.trim();
+            const whatsapp = document.getElementById('v-whatsapp').value.trim();
+            const trx = document.getElementById('v-trx').value.trim();
+            const receiptInput = document.getElementById('v-receipt');
+
+            if(!name || !whatsapp || !trx) {
+                alert("Please fill in all details and transaction ID!");
+                return;
+            }
+
+            try {
+                let receiptImg = '';
+                if(receiptInput && receiptInput.files && receiptInput.files[0]) {
+                    receiptImg = await compressImageFile(receiptInput.files[0]);
+                }
+
+                let vendorId = 'vendor_' + Date.now();
+                await window.setDoc(window.doc(window.db, "vendor_registrations", vendorId), {
+                    name, whatsapp, trx, receiptImg, status: "Pending", timestamp: new Date().toISOString()
+                });
+
+                alert("Registration submitted successfully! Once admin verifies your Rs. 500 payment, your admin PIN (4172) will be sent to your WhatsApp.");
+                closeVendorRegModal();
+            } catch(e) {
+                alert("Error: " + e.message);
+            }
+        };
+
+        window.renderAdminVendors = function(vendors) {
+            const list = document.getElementById('admin-vendors-list');
+            if(!list) return;
+
+            if(vendors.length === 0) {
+                list.innerHTML = '<p class="text-xs text-zinc-400">No pending vendor registrations.</p>';
+                return;
+            }
+
+            let html = '';
+            vendors.forEach(v => {
+                let statusBadge = v.status === 'Approved' ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700';
+                let receiptBtn = v.receiptImg ? `<a href="${v.receiptImg}" download="receipt_${v.whatsapp}.jpg" class="text-indigo-600 underline font-bold text-[11px] block mt-1"><i class="fa-solid fa-image mr-1"></i>Download Screenshot</a>` : '';
+                html += `
+                    <div class="bg-white p-3 rounded-sm border border-zinc-200 text-xs flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+                        <div>
+                            <p class="font-bold text-zinc-800">${v.name} — <span class="text-emerald-600 font-mono">${v.whatsapp}</span></p>
+                            <p class="text-zinc-500">Trx ID: <span class="font-mono text-zinc-800">${v.trx}</span> | Fee: Rs. 500</p>
+                            <span class="inline-block px-2 py-0.5 rounded text-[10px] font-bold mt-1 ${statusBadge}">${v.status}</span>
+                            ${receiptBtn}
+                        </div>
+                        <div class="flex gap-2">
+                            ${v.status !== 'Approved' ? `<button onclick="approveVendor('${v.id}', '${v.whatsapp}')" class="bg-emerald-600 text-white px-3 py-1.5 rounded-sm font-bold">Approve & Send PIN</button>` : ''}
+                            <button onclick="deleteVendor('${v.id}')" class="bg-red-100 text-red-600 px-3 py-1.5 rounded-sm font-bold">Delete</button>
+                        </div>
+                    </div>
+                `;
+            });
+            list.innerHTML = html;
+        };
+
+        window.approveVendor = async function(id, whatsapp) {
+            await window.updateDoc(window.doc(window.db, "vendor_registrations", id), { status: "Approved" });
+            alert(`Vendor approved! Opening WhatsApp to send PIN 4172 to ${whatsapp}...`);
+            let msg = `*World Mart Vendor Verification Successful!*%0a` +
+                      `Congratulations! Your Rs. 500 lifetime registration fee has been verified.%0a` +
+                      `Your Admin Panel PIN is: *4172*%0a` +
+                      `You now have lifetime unlimited access to add and manage your products on World Mart!`;
+            window.open(`https://wa.me/92${whatsapp.replace(/^0/, '')}?text=${msg}`, '_blank');
+        };
+
+        window.deleteVendor = async function(id) {
+            if(confirm("Delete this vendor request?")) {
+                await window.deleteDoc(window.doc(window.db, "vendor_registrations", id));
+            }
         };
 
         window.openCheckoutModal = function(id) {
